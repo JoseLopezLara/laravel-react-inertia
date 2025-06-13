@@ -99,16 +99,32 @@ export const useTodos = () => {
   }, []);
 
   // Clear specific filter
-  const clearFilter = useCallback((filterKey: keyof TodoFilters) => {
-    router.get('/todos', {}, {
-      preserveState: true,
-      preserveScroll: true,
-      replace: true,
-      only: ['todos', 'stats'], // Only reload these props
-      data: {
-        [filterKey]: undefined
+//   const clearFilter = useCallback((filterKey: keyof TodoFilters) => {
+//     router.get('/todos', {}, {
+//       preserveState: true,
+//       preserveScroll: true,
+//       replace: true,
+//       only: ['todos', 'stats'], // Only reload these props
+//       data: {
+//         [filterKey]: undefined
+//       }
+//     });
+//   }, []);
+
+  // Clear specific filter
+const clearFilter = useCallback((filterKey: keyof TodoFilters) => {
+    router.get(
+      '/todos',
+      { // Este es el objeto de datos que se enviará como parámetros de URL
+        [filterKey]: undefined // Mueve esto aquí
+      },
+      { // Este es el objeto de opciones
+        preserveState: true,
+        preserveScroll: true,
+        replace: true,
+        only: ['todos', 'stats'], // Solo recargar estas propiedades
       }
-    });
+    );
   }, []);
 
   // Reset all filters
