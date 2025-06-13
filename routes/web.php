@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TodoController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -11,6 +12,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
+
+    // Rutas para Todos
+    Route::resource('todos', TodoController::class)->except(['show', 'create', 'edit']);
+
+    // Rutas adicionales para acciones específicas
+    Route::patch('/todos/{todo}/toggle', [TodoController::class, 'toggleComplete'])->name('todos.toggle');
+    Route::post('/todos/bulk-action', [TodoController::class, 'bulkAction'])->name('todos.bulk-action');
 });
 
 require __DIR__.'/settings.php';
